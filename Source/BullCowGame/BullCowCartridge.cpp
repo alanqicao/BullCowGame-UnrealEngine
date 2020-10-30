@@ -37,6 +37,12 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Guess the %i letter word!"), HiddenWord.Len());
     PrintLine(TEXT("You have %i lives."), Lives);
     PrintLine(TEXT("Type in your guess and \nPress enter to contnie....")); // prompt player for guess
+
+
+    const TCHAR HW[] = TEXT("plums");
+    PrintLine(TEXT("Character 1 of the hidden word is: %c"), HiddenWord[0]);//print "c"
+    PrintLine(TEXT("The 4th character of HW is: %c"),HW[3]);//print"m"
+
 }
 
 void UBullCowCartridge::EndGame()
