@@ -10,7 +10,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     PrintLine(TEXT("The HiddenWord is: %s. \nIt is %i Characters long"), *HiddenWord, HiddenWord.Len()); // Debug Line
 }
 
-void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
+void UBullCowCartridge::OnInput(const FString & Input) // When the player hits enter
 {
 
     if (bGameOver)
@@ -38,10 +38,10 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("You have %i lives."), Lives);
     PrintLine(TEXT("Type in your guess and \nPress enter to contnie....")); // prompt player for guess
 
-
-    const TCHAR HW[] = TEXT("plums");
-    PrintLine(TEXT("Character 1 of the hidden word is: %c"), HiddenWord[0]);//print "c"
-    PrintLine(TEXT("The 4th character of HW is: %c"),HW[3]);//print"m"
+    // const TCHAR HW[] = TEXT("plums");
+    // PrintLine(TEXT("Character 1 of the hidden word is: %c"), HiddenWord[0]);//print "c"
+    // PrintLine(TEXT("The 4th character of HW is: %c"),HW[3]);//print"m"
+  IsIsogram(HiddenWord);
 
 }
 
@@ -65,9 +65,10 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
 
     // check if isogram
 
-    // if(!IsIsogram){
-    //     PrintLine(TEXT("No repeating letters, guess agian"));
-    // }
+    if(!IsIsogram(Guess)){
+        PrintLine(TEXT("No repeating letters, guess agian"));
+        return;
+    }
 
   
     if (Guess.Len() != HiddenWord.Len())
@@ -102,4 +103,26 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
     // if no show game over adn HiddenWord?
    
     // play agin or quit
+}
+
+bool UBullCowCartridge::IsIsogram(FString Word) const
+{
+   
+
+     for(int32 Index = 0 ; Index<Word.Len(); Index++)
+    {
+        PrintLine(TEXT("%c"), Word[Index]);
+    }
+
+    //   for(int32 Index = 0 ; Index<HiddenWord.Len(); Index++)
+    // {
+    //     PrintLine(TEXT("%c"), HiddenWord[Index]);
+    // }
+    // for each letter
+    // start at element [0]
+    // compare against the next letter.
+    // until we reach [Word.Len()-1]
+    // if any are the same return false.
+    //
+    return true;
 }
