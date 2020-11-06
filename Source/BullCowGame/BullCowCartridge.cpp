@@ -1,13 +1,27 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "BullCowCartridge.h"
+#include "Misc/FileHelper.h"
+#include "Misc/Paths.h"
+
 
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
+    
+    const FString WordListPath = FPaths::ProjectContentDir() / TEXT("WordLists/HiddenWordList.txt");
+    FFileHelper::LoadFileToStringArray(Words, *WordListPath);
 
     SetupGame();
 
-    PrintLine(TEXT("The HiddenWord is: %s. \nIt is %i Characters long"), *HiddenWord, HiddenWord.Len()); // Debug Line
+    PrintLine(TEXT("The number of possible words is %i"),Words.Num());
+
+    PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord); // Debug Line
+
+    for (int32 Index = 0; Index != 5 ; Index++)
+    {
+        PrintLine(TEXT("%s"),*Words[Index]);
+    }
+    
 }
 
 void UBullCowCartridge::OnInput(const FString & Input) // When the player hits enter
@@ -38,10 +52,7 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("You have %i lives."), Lives);
     PrintLine(TEXT("Type in your guess and \nPress enter to contnie....")); // prompt player for guess
 
-    // const TCHAR HW[] = TEXT("plums");
-    // PrintLine(TEXT("Character 1 of the hidden word is: %c"), HiddenWord[0]);//print "c"
-    // PrintLine(TEXT("The 4th character of HW is: %c"),HW[3]);//print"m"
-  IsIsogram(HiddenWord);
+   
 
 }
 
@@ -107,22 +118,30 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
 
 bool UBullCowCartridge::IsIsogram(FString Word) const
 {
+
+        for(int32 Index = 0; Index<Word.Len();Index++){
+
+            for(int32 Comparison = Index+1; Comparison < Word.Len();Comparison++){
+
+                if (Word[Index]==Word[Comparison])
+                {
+                    return false;
+                }               
+
+            }
+        }
+
+   return true;
    
 
-     for(int32 Index = 0 ; Index<Word.Len(); Index++)
-    {
-        PrintLine(TEXT("%c"), Word[Index]);
-    }
 
-    //   for(int32 Index = 0 ; Index<HiddenWord.Len(); Index++)
-    // {
-    //     PrintLine(TEXT("%c"), HiddenWord[Index]);
-    // }
+
+
     // for each letter
     // start at element [0]
     // compare against the next letter.
     // until we reach [Word.Len()-1]
     // if any are the same return false.
     //
-    return true;
+    
 }
